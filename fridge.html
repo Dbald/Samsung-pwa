@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AR Fridge</title>
+  <style>
+    body {
+      margin: 0
+    }
+    canvas {
+      width: 20%;
+      height: 20%;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="./App.css">
+  <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+</head>
+<!-- include A-Frame obviously-->
+
+ <!-- include ar.js for A-Frame -->
+<script src=""></script> 
+
+<body>
+    <div class="App">
+        <header class="App-header">
+          <img
+            src="http://www.fhfff.com/img175/ngrfwhshrvxuesxkohkn.jpg"
+            class="App-logo"
+            alt="logo"
+          />
+        </header>
+        <a-scene>
+            <a-assets>
+                <a-asset-item id="tree" src="./models/scene.gltf"></a-asset-item>
+              </a-assets>
+              <a-entity gltf-model="#tree"></a-entity>
+        </a-scene>
+          <div class="items">
+            <h1>THIS IS TEXT</h1>
+            </div>
+        <footer class="footer"></footer>
+      </div>
+
+</body>
+
+</html>
