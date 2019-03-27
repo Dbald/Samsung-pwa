@@ -12,7 +12,7 @@
     }
   </style>
   <link rel="stylesheet" type="text/css" href="./App.css">
-  <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  <script src="https://cdn.babylonjs.com/viewer/babylon.viewer.js"></script>
 </head>
 
 <body>
@@ -24,14 +24,17 @@
             alt="logo"
           />
         </header>
-        <a-scene>
-            <a-assets>
-                <a-asset-item id="tree" src="./models/scene.gltf"></a-asset-item>
-              </a-assets>
-              <a-entity gltf-model="#tree"></a-entity>
-        </a-scene>
-          <div class="items">
-            <h1>THIS IS TEXT</h1>
+        <babylon class="scene" model="./models/scene.gltf"></babylon>
+        <!-- <a-scene class="scene">
+          <a-gltf-model src="./models/scene.gltf"></a-gltf-model>
+          <a-assets>
+            <a-asset-item src="./models/scene.bin"></a-asset-item>
+          </a-assets>
+        </a-scene> -->
+          <div class="info">
+            <h1>This would be a fridge if I had the assets lol <br/>
+            Laptop</h1>
+              <h2>$4,444.00</h2>
             </div>
         <footer class="footer"></footer>
       </div>

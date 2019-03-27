@@ -55,7 +55,15 @@ body {
   width: 49%;
   border: grey 1px solid
 }
+/* Item Scene */
 
+.scene , canvas {
+  width: 100%;
+  height: 500px;
+}
+
+
+/* Media Queries */
 @media screen and (max-width: 480px) {
   .App-logo {
     width: 100%;
