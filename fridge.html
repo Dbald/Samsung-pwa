@@ -13,12 +13,14 @@
   </style>
   <link rel="stylesheet" type="text/css" href="./App.css">
   <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
-  <script src="https://cdn.babylonjs.com/viewer/babylon.viewer.js"></script>
+  <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v6.0.0/dist/aframe-extras.min.js"></script>
 </head>
 
 <body>
     <div class="App">
+      
         <header class="App-header">
+          <a href="AR.html"><img class="arrow" src="http://onwardohsu.org/sites/default/themes/ohsu/images/icon/chevron-left-shadow.png" alt="arrow"></a>
           <img
             src="./img/logo.jpg"
             class="App-logo"
@@ -26,14 +28,20 @@
           />
         </header>
         
-        <a-scene class="scene">
-          <babylon model="./models/scene.gltf"></babylon>
-          <!-- <a-gltf-model class="laptop" src="./models/scene.gltf"></a-gltf-model> -->
+        <a-scene class="scene" embedded>
+          <a-assets>
+            <a-asset-item id="fridge" src="../models/fridge.gltf">
+            </a-assets>
+        
+          <!-- Using the asset management system. -->
+          <a-gltf-model src="#fridge" position="0 0.5 -2.2" rotation="0 -45 0"></a-gltf-model>
         </a-scene>
           <div class="info">
-            <h1>This would be a fridge if I had the assets lol <br/>
-            Laptop</h1>
-              <h2>$4,444.00</h2>
+            <h1>22 cu. ft. Capacity Counter Depth<br> 4-Door Flex™
+            Refridgerator with Family Hub™ (2007)</h1>
+            <p id="product-number">RF22MR5A345675/AA</p>
+              <h2>$4,799.00</h2>
+              
             </div>
         <footer class="footer"></footer>
       </div>
