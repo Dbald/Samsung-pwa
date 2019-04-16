@@ -131,6 +131,10 @@ body {
     height: auto;
     top: 3%
   }
+
+.scene, canvas {
+  height: 400px
+}
   .cart {
     width: 70%;
     margin: 1%
