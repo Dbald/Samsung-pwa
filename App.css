@@ -88,12 +88,17 @@ body {
   box-sizing: border-box;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
   width: 100%
 }
 .items {
-  width: 49%;
-  border: grey 1px solid
+  width: 24.8%;
+  height: auto;
+  transition: 1s;
+}
+.items:hover {
+  opacity: 0.5;
+  cursor: pointer;
+
 }
 .footer {
   background: #014495;
@@ -149,7 +154,7 @@ body {
 /* Media Queries */
 @media screen and (min-width: 780px) {
   .arrow {
-    width: 3%;
+    width: 2%;
     height: auto;
     top: 2.45%
   }
@@ -203,6 +208,10 @@ body {
   }
   .divider {
     padding: 3%
+  }
+  .items {
+    width: 49%;
+    border: grey 1px solid
   }
   .arrow {
     width: 5%;
