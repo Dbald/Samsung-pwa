@@ -46,7 +46,8 @@ body {
 .bold {
   text-align: left;
   line-height: 90%;
-  font-size: 50px
+  font-size: 50px;
+  font-weight: bold
 }
 .rando {
   text-align: left
@@ -70,6 +71,15 @@ body {
   margin-bottom: -15%
 
 }
+.divider {
+  width: 100%;
+  padding: 3%;
+  background: #014495;
+  color: white;
+  font-weight: bold;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: x-large
+}
 .product {
   width: 100%;
   height: auto;
@@ -85,6 +95,10 @@ body {
 .items {
   width: 49%;
   border: grey 1px solid
+}
+.footer {
+  background: #014495;
+  padding: 4%
 }
 /* Item Scene */
 
@@ -154,12 +168,40 @@ body {
     width: 100%;
     height: auto;
   }
+  .text {
+    float: left;
+    margin-top: 6%;
+    margin-left: 10%
+  }
+  .bold {
+    text-align: left;
+    line-height: 90%;
+    font-size: x-large
+  }
+  .rando {
+    text-align: left;
+    font-size: x-small
+  }
+  .empty {
+    font-size: x-small;
+    margin-top: 10px;
+    padding: 2%;
+    float: left;
+    border: 2px solid black;
+    border-radius: 25px;
+    background: transparent
+  }
   .landing-pic {
-    width: 80%;
-    height: 30rem;
-    padding: 0%;
-    margin: 0%
+    transform:  scaleX(-1);
+    filter: FlipH;
+    float: right;
+    width: 70%;
+    height: auto;
+    padding: -20%;
+    margin-top: -25%;
+    margin-bottom: -15%
   
+  }
   }
   .arrow {
     width: 5%;
