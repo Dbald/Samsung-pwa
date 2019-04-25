@@ -17,7 +17,7 @@ body {
 
 .App-logo {
   width: auto;
-  height: 100px
+  height: 60px
 }
 
 .App-header {
@@ -40,7 +40,7 @@ body {
 }
 .text {
   float: left;
-  margin-top: 6%;
+  margin-top: 3%;
   margin-left: 10%
 }
 .bold {
@@ -64,16 +64,15 @@ body {
   transform:  scaleX(-1);
   filter: FlipH;
   float: right;
-  width: 50rem;
+  width: 80%;
   height: auto;
-  padding: -20%;
-  margin-top: -15%;
+  margin-top: -30%;
   margin-bottom: -15%
 
 }
 .divider {
   width: 100%;
-  padding: 3%;
+  padding: 1%;
   background: #014495;
   color: white;
   font-weight: bold;
@@ -98,7 +97,7 @@ body {
 }
 .footer {
   background: #014495;
-  padding: 4%
+  padding: 1%
 }
 /* Item Scene */
 
@@ -202,6 +201,8 @@ body {
     margin-bottom: -15%
   
   }
+  .divider {
+    padding: 3%
   }
   .arrow {
     width: 5%;
@@ -217,7 +218,9 @@ body {
     margin: 1%
   }
 }
-
+.footer {
+  padding: 4%
+}
 /* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
