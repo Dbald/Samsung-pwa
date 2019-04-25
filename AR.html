@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AR</title>
-  <style>
-    body {
-      margin: 0
-    }
-    canvas {
-      width: 20%;
-      height: 20%;
-    }
-  </style>
-  <link rel="stylesheet" type="text/css" href="./App.css">
-  <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-</head>
-<!-- include A-Frame obviously
+  <head>
+    <title>AR</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        width: 20%;
+        height: 20%;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="./App.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Titillium+Web"
+      rel="stylesheet"
+    />
+  </head>
+  <!-- include A-Frame obviously
 <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
  include ar.js for A-Frame -->
-<!-- <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script> -->
+  <!-- <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script> -->
 
-<body>
+  <body>
     <div class="App">
-        <header class="App-header">
-          <img
-            src="./img/logo.jpg"
-            class="App-logo"
-            alt="logo"
-          />
-        </header>
-        <div class="landing">
-          <h1>A new kitchen for<br/> the new year</h1>
-          <p></p>
-          <img class="landing-pic" src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base,w_1200/v3/product/samsung/electrictechnologypackage.jpg" alt="combo">
+      <header class="App-header">
+        <img src="./img/logo.jpg" class="App-logo" alt="logo" />
+      </header>
+      <div class="landing">
+        <div class="text">
+          <h1 class="bold">
+            A new kitchen for<br />
+            the new year
+          </h1>
+          <p class="rando">Chef-inspired technology with contemporary<br> elegance.</p>
+          <button class="empty">Shop Now</button>
         </div>
-        <div class="item-container">
-          <div class="items">
-            <a href="/pages/fridge.html"><img class="product" src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base/v3/product/samsung/fridge-rf265beaesr.jpg" alt="fridge"></a>
-          </div>
-          <div class="items">
-              <a href="/pages/microwave.html"><img class="product" src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base/v3/product/samsung/otr-me16h702ses.jpg" alt="microwave"></a>
-          </div>
-          <div class="items">
-            <a href="/pages/range.html"><img class="product" src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base,w_1200/v3/product/samsung/samsung-ne58k9430ss-stainless-steel_edited-1.jpg" alt="range"></a>
-          </div>
-          <div class="items">
-            <a href="/pages/dishwasher.html"><img class="product" src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base/v3/product/samsung/dw-dw80k7050us.jpg" alt="dishwasher"></a>
-          </div>
-        </div>
-        <footer class="footer"></footer>
+        <img
+          class="landing-pic"
+          src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base,w_1200/v3/product/samsung/electrictechnologypackage.jpg"
+          alt="combo"
+        />
       </div>
-
-</body>
-
+      <div class="item-container">
+        <div class="items">
+          <a href="/pages/fridge.html"
+            ><img
+              class="product"
+              src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base/v3/product/samsung/fridge-rf265beaesr.jpg"
+              alt="fridge"
+          /></a>
+        </div>
+        <div class="items">
+          <a href="/pages/microwave.html"
+            ><img
+              class="product"
+              src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base/v3/product/samsung/otr-me16h702ses.jpg"
+              alt="microwave"
+          /></a>
+        </div>
+        <div class="items">
+          <a href="/pages/range.html"
+            ><img
+              class="product"
+              src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base,w_1200/v3/product/samsung/samsung-ne58k9430ss-stainless-steel_edited-1.jpg"
+              alt="range"
+          /></a>
+        </div>
+        <div class="items">
+          <a href="/pages/dishwasher.html"
+            ><img
+              class="product"
+              src="https://s3.img-b.com/image/private/c_lpad,f_auto,h_1200,t_base/v3/product/samsung/dw-dw80k7050us.jpg"
+              alt="dishwasher"
+          /></a>
+        </div>
+      </div>
+      <footer class="footer"></footer>
+    </div>
+  </body>
 </html>

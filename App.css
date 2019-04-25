@@ -32,15 +32,43 @@ body {
   color: #61dafb;
 }
 .landing {
-  transform:  scaleX(-1);
-  filter: FlipH;
+  /*  */
+  font-family: 'Titillium Web', sans-serif;
   width:100%;
-  margin: 0%
+  margin: 0%;
+  padding: 0%
+}
+.text {
+  float: left;
+  margin-top: 6%;
+  margin-left: 10%
+}
+.bold {
+  text-align: left;
+  line-height: 90%;
+  font-size: 50px
+}
+.rando {
+  text-align: left
+}
+.empty {
+  margin-top: 10px;
+  padding: 2%;
+  float: left;
+  border: 2px solid black;
+  border-radius: 25px;
+  background: transparent
 }
 .landing-pic {
-  float: left;
-  width: 100%;
+  transform:  scaleX(-1);
+  filter: FlipH;
+  float: right;
+  width: 50rem;
   height: auto;
+  padding: -20%;
+  margin-top: -15%;
+  margin-bottom: -15%
+
 }
 .product {
   width: 100%;
@@ -126,8 +154,15 @@ body {
     width: 100%;
     height: auto;
   }
+  .landing-pic {
+    width: 80%;
+    height: 30rem;
+    padding: 0%;
+    margin: 0%
+  
+  }
   .arrow {
-    width: 3%;
+    width: 5%;
     height: auto;
     top: 3%
   }
