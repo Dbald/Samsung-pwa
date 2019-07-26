@@ -54,6 +54,7 @@ body {
 .rando {
   text-align: left;
   transition: 1s;
+  z-index: 1;
 }
 .empty {
   margin-top: 10px;
@@ -64,16 +65,18 @@ body {
   background: transparent;
   transition: 1s;
 }
+.empty:hover {
+  cursor: pointer;
+}
 .landing-pic {
   transform:  scaleX(-1);
   filter: FlipH;
   float: right;
-  width: 80%;
+  width: 60%;
   height: auto;
-  margin-top: -30%;
-  margin-bottom: -15%;
+  margin: -10% 10% 5% 5%;
   transition: 1s;
-  z-index: 0;
+  z-index: -1;
 
 }
 .divider {
@@ -89,17 +92,34 @@ body {
 }
 .product {
   width: 100%;
-  height: auto;
+  height: 320px;
 }
 .item-container {
-  display: flex;
+  display: grid;
   box-sizing: border-box;
-  flex-wrap: wrap;
-  justify-content: center;
-  flex-direction: row;
+  grid-template-columns: auto auto auto auto;
+  grid-template-areas: 'one two three four';
+  padding: 10px;
   width: 100%
 }
-
+.items {
+text-align: center
+}
+.one {
+  grid-area: one
+}
+.two {
+  grid-area: two
+}
+.three {
+  grid-area: three
+}
+.four {
+  grid-area: four
+}
+.title {
+  height: 55px
+}
 .items:hover {
   opacity: 0.5;
   cursor: pointer;
@@ -157,14 +177,19 @@ body {
 }
 
 /* Media Queries */
-@media screen and (min-width: 780px) {
+@media only screen and (min-width: 780px) {
+  .item-container {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+    'one two'
+    'three four'
+  }
   .arrow {
     width: 2%;
     height: auto;
     top: 2.45%
   }
   .items {
-  width: 24.8%;
   transition: 1s;
 }
 }
@@ -175,8 +200,13 @@ body {
     top: 2.45%
   }
 } */
-
-@media screen and (max-width: 480px) {
+@media screen and (min-width: 580px) {
+  .product {
+    width: auto;
+    height: 250px
+  }
+}
+@media screen and (max-width: 580px) {
   .App-logo {
     width: 100%;
     height: auto;
@@ -203,24 +233,6 @@ body {
     border: 2px solid black;
     border-radius: 25px;
     background: transparent
-  }
-  .landing-pic {
-    transform:  scaleX(-1);
-    filter: FlipH;
-    float: right;
-    width: 70%;
-    height: auto;
-    padding: -20%;
-    margin-top: -25%;
-    margin-bottom: -15%
-  
-  }
-  .divider {
-    padding: 3%
-  }
-  .items {
-    width: 49%;
-    border: grey 1px solid
   }
   .arrow {
     width: 5%;
