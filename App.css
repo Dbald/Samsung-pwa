@@ -97,8 +97,10 @@ body {
 .item-container {
   display: grid;
   box-sizing: border-box;
-  /* grid-template-columns: auto auto auto auto;
-  grid-template-areas: 'one two three four'; */
+  grid-template-columns: auto auto;
+  grid-template-areas: 
+  'one two' 
+  'three four';
   padding: 10px;
   width: 100%
 }
@@ -178,12 +180,6 @@ text-align: center
 
 /* Media Queries */
 @media only screen and (min-width: 780px) {
-  .item-container {
-    grid-template-columns: auto auto;
-    grid-template-areas:
-    'one two'
-    'three four'
-  }
   .arrow {
     width: 2%;
     height: auto;
