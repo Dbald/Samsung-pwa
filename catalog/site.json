@@ -1,0 +1,14 @@
+{
+  "name": "Kitchen Appliance Showroom",
+  "shortName": "Showroom",
+  "tagline": "Inspect kitchen appliances in 3D, check the details, then continue to the retailer.",
+  "demoNotice": "These are historical Samsung appliance listings from the 2020 prototype. They are not current offers, and the details are still being verified.",
+  "lang": "en",
+  "themeColor": "#014495",
+  "backgroundColor": "#ffffff",
+  "allowedRetailerHosts": ["www.samsung.com"],
+  "priceFreshnessDays": 30,
+  "cache": { "maxPages": 8, "maxModels": 2, "maxPosters": 12 },
+  "analytics": { "endpoint": null, "requireConsent": false },
+  "budgets": { "maxModelBytes": 3000000, "maxTriangles": 150000, "scaleTolerance": 0.01 }
+}

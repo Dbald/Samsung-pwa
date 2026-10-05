@@ -1,0 +1,51 @@
+{
+  "id": "rf22n9781sr",
+  "slug": "refrigerator-rf22n9781sr",
+  "legacyPaths": [
+    "pages/fridge.html"
+  ],
+  "category": "refrigerator",
+  "brand": "Samsung",
+  "title": "22 cu. ft. Family Hub Counter Depth 4-Door Flex Refrigerator",
+  "sku": "RF22N9781SR/AA",
+  "description": "A counter-depth, four-door Flex refrigerator with a Family Hub touch screen.",
+  "finish": "Stainless Steel",
+  "benefit": null,
+  "features": [],
+  "specifications": {
+    "exterior": null,
+    "sourceUrl": null,
+    "verifiedAt": null,
+    "clearances": null
+  },
+  "assets": {
+    "model": "models/fridge.glb",
+    "usdz": null,
+    "source": "source/models/fridge.gltf",
+    "poster": "posters/fridge.webp",
+    "posterAlt": "3D render of the 22 cu. ft. Family Hub Counter Depth 4-Door Flex Refrigerator in stainless steel, viewed from the front left.",
+    "images": [],
+    "assetVersion": 1,
+    "scaleVerified": false,
+    "placementType": "floor",
+    "cameraOrbit": "-30deg 75deg auto"
+  },
+  "commerce": {
+    "retailerName": "Samsung US",
+    "retailerUrl": "https://www.samsung.com/us/home-appliances/refrigerators/4-door-flex/22-cu--ft--counter-depth-4-door-flex--with-21-5-in--connected-touch-screen-family-hub--refrigerator-rf22n9781sr-aa/",
+    "retailerStatus": "unverified",
+    "retailerCheckedAt": null,
+    "price": 3499,
+    "currency": "USD",
+    "priceVerifiedAt": null,
+    "priceSource": "recorded in the 2020 prototype",
+    "demoStatus": "historical"
+  },
+  "governance": {
+    "assetOwner": "Unknown (2020 prototype export, rights under review)",
+    "license": null,
+    "attribution": null,
+    "approvalStatus": "pending",
+    "fallbackReason": "AR is hidden until model scale has been checked against verified dimensions."
+  }
+}
