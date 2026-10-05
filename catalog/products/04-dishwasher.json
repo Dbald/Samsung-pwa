@@ -1,0 +1,51 @@
+{
+  "id": "dw80k7050us",
+  "slug": "dishwasher-dw80k7050us",
+  "legacyPaths": [
+    "pages/dishwasher.html"
+  ],
+  "category": "dishwasher",
+  "brand": "Samsung",
+  "title": "StormWash Dishwasher with Top Controls",
+  "sku": "DW80K7050US/AA",
+  "description": "A built-in StormWash dishwasher with top-mounted controls.",
+  "finish": "Stainless Steel",
+  "benefit": null,
+  "features": [],
+  "specifications": {
+    "exterior": null,
+    "sourceUrl": null,
+    "verifiedAt": null,
+    "clearances": null
+  },
+  "assets": {
+    "model": "models/dishwasher.glb",
+    "usdz": null,
+    "source": "source/models/dishwasher.gltf",
+    "poster": "posters/dishwasher.webp",
+    "posterAlt": "3D render of the StormWash Dishwasher with Top Controls in stainless steel, viewed from the front left.",
+    "images": [],
+    "assetVersion": 1,
+    "scaleVerified": false,
+    "placementType": "floor",
+    "cameraOrbit": "-30deg 75deg auto"
+  },
+  "commerce": {
+    "retailerName": "Samsung US",
+    "retailerUrl": "https://www.samsung.com/us/home-appliances/dishwashers/rotary/dw80k7050us-aa-dw80k7050us-aa/",
+    "retailerStatus": "unverified",
+    "retailerCheckedAt": null,
+    "price": 649,
+    "currency": "USD",
+    "priceVerifiedAt": null,
+    "priceSource": "recorded in the 2020 prototype",
+    "demoStatus": "historical"
+  },
+  "governance": {
+    "assetOwner": "Unknown (2020 prototype export, rights under review)",
+    "license": null,
+    "attribution": null,
+    "approvalStatus": "pending",
+    "fallbackReason": "AR is hidden until model scale has been checked against verified dimensions."
+  }
+}

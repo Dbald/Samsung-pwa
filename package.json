@@ -1,0 +1,41 @@
+{
+  "name": "appliance-showroom",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Reusable 3D appliance showroom PWA",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "tsx scripts/serve.ts",
+    "validate": "tsx scripts/validate-catalog.ts",
+    "validate:release": "tsx scripts/validate-catalog.ts --release",
+    "assets": "tsx scripts/prepare-assets.ts",
+    "posters": "tsx scripts/render-posters.ts",
+    "icons": "tsx scripts/render-icons.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "npm run validate && npm run typecheck && npm test && npm run build && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@gltf-transform/core": "4.5.1",
+    "@gltf-transform/functions": "4.5.1",
+    "@playwright/test": "1.56.1",
+    "@types/node": "26.6.4",
+    "playwright-core": "1.56.1",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.2",
+    "vitest": "5.0.3"
+  },
+  "dependencies": {
+    "@google/model-viewer": "4.3.1",
+    "qrcode-generator": "2.0.4",
+    "three": "0.183.2"
+  }
+}
