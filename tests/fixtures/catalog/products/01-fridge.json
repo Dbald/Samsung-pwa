@@ -36,15 +36,18 @@
   "assets": {
     "model": "models/fridge.glb",
     "usdz": null,
-    "source": "source/models/fridge.gltf",
+    "source": "source/generators/refrigerator.ts",
     "poster": "posters/fridge.webp",
     "posterAlt": "3D render of the 22 cu. ft. Family Hub Counter Depth 4-Door Flex Refrigerator in stainless steel, viewed from the front left.",
     "images": [],
-    "assetVersion": 1,
+    "assetVersion": 2,
     "scaleVerified": false,
     "placementType": "floor",
     "cameraOrbit": "-30deg 75deg auto",
-    "tintMaterials": null
+    "tintMaterials": [
+      "stainless",
+      "stainless-brushed"
+    ]
   },
   "commerce": {
     "retailerName": "Example Retailer",

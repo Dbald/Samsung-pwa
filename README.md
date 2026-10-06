@@ -38,6 +38,13 @@ Node 20.19+ is required. The browser tests use Playwright's Chromium
   scale is verified against authoritative dimensions *and* the device supports WebXR,
   Scene Viewer or Quick Look. Add `?ar-test` to a product URL to try the AR launch path on
   a device before scale is verified. The page labels it as test mode.
+- **Shopping tools.** Finish swatches recolour the 3D model and update the model number
+  and retailer link, but only for finishes the catalog lists as verified. Shoppers can
+  save products without an account and compare them side by side at `/compare/`.
+  Comparisons can be shared with `?ids=`.
+- **Generated models.** Each appliance is built by a parametric generator in
+  `assets/source/generators/`. That makes the models rights-clean, gives them named PBR
+  materials, and lets them be built at the exact verified dimensions.
 - **Installable and offline-aware.** The app includes a web app manifest, maskable icons,
   and a service worker that precaches the shell and posters. It keeps the last 8 product
   pages and 2 models and versions every cache. Updates show a "Reload" prompt rather
@@ -55,7 +62,8 @@ Node 20.19+ is required. The browser tests use Playwright's Chromium
 | `npm run assets` | Package source glTF exports into runtime GLBs in `assets/models/` |
 | `npm run posters` | Render product posters from the GLBs |
 | `npm run icons` | Rasterize the app icon |
-| `npm test` / `npm run test:e2e` | Unit tests / browser tests against the build |
+| `npm run build:fixture` | Build the fixture catalog (finish variants) used by the browser tests |
+| `npm test` / `npm run test:e2e` | Unit tests / browser tests against the builds |
 
 ## Layout
 
@@ -64,7 +72,7 @@ catalog/            site.json + one JSON record per product
 assets/models/      runtime GLBs (deployed, content-hashed)
 assets/posters/     rendered posters (deployed)
 assets/icons/       app icons
-assets/source/      original exports and the 2020 logo, never deployed
+assets/source/      model generators, the 2020 exports and logo; never deployed
 src/catalog/        record types and validation
 src/render/         HTML, manifest and redirect generation
 src/client/         browser code: viewer, analytics, handoff, PWA

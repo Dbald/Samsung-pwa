@@ -23,15 +23,18 @@
   "assets": {
     "model": "models/microwave.glb",
     "usdz": null,
-    "source": "source/models/microwave.gltf",
+    "source": "source/generators/microwave.ts",
     "poster": "posters/microwave.webp",
     "posterAlt": "3D render of the 1.8 cu. ft. Over-the-Range Microwave with Sensor Cooking in fingerprint resistant stainless steel, viewed from the front left.",
     "images": [],
-    "assetVersion": 1,
+    "assetVersion": 2,
     "scaleVerified": false,
     "placementType": "wall",
     "cameraOrbit": "-30deg 75deg auto",
-    "tintMaterials": null
+    "tintMaterials": [
+      "stainless",
+      "stainless-brushed"
+    ]
   },
   "commerce": {
     "retailerName": "Samsung US",
@@ -45,8 +48,8 @@
     "demoStatus": "historical"
   },
   "governance": {
-    "assetOwner": "Unknown (2020 prototype export, rights under review)",
-    "license": null,
+    "assetOwner": "Generated in this repository (assets/source/generators)",
+    "license": "Same terms as this repository",
     "attribution": null,
     "approvalStatus": "pending",
     "fallbackReason": "AR is hidden until model scale has been checked against verified dimensions."

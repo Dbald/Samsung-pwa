@@ -22,10 +22,11 @@ test('3D inspection loads with controls and a working reset', async ({ page }) =
   const orbitAfterDrag = await page.locator('model-viewer').evaluate((el) => (el as unknown as { getCameraOrbit(): { theta: number } }).getCameraOrbit().theta);
 
   await page.getByRole('button', { name: 'Reset view' }).click();
-  await page.waitForTimeout(1500);
-  const orbitAfterReset = await page.locator('model-viewer').evaluate((el) => (el as unknown as { getCameraOrbit(): { theta: number } }).getCameraOrbit().theta);
   const approved = (-30 * Math.PI) / 180;
-  expect(Math.abs(orbitAfterReset - approved)).toBeLessThan(0.05);
+  // Reset animates back to the approved framing (it jumps with reduced motion).
+  await expect
+    .poll(async () => Math.abs((await page.locator('model-viewer').evaluate((el) => (el as unknown as { getCameraOrbit(): { theta: number } }).getCameraOrbit().theta)) - approved), { timeout: 8000 })
+    .toBeLessThan(0.02);
   expect(Math.abs(orbitAfterDrag - approved)).toBeGreaterThan(0.05);
 
   const names = (await events(page)).map((e) => e.name);

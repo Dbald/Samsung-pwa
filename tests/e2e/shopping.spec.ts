@@ -14,9 +14,17 @@ test.describe('finish swatches (fixture catalog)', () => {
     await expect(group.getByRole('radio', { name: 'Stainless Steel', exact: true })).toBeChecked();
     await expect(page.locator('[data-viewer]')).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
 
-    const baseColor = () =>
-      page.locator('model-viewer').evaluate((el) => (el as unknown as { model: { materials: { pbrMetallicRoughness: { baseColorFactor: number[] } }[] } }).model.materials[0].pbrMetallicRoughness.baseColorFactor[0]);
+    const color = (name: string) =>
+      page.locator('model-viewer').evaluate(
+        (el, n) =>
+          (el as unknown as { model: { materials: { name: string; pbrMetallicRoughness: { baseColorFactor: number[] } }[] } }).model.materials.find((m) => m.name === n)!
+            .pbrMetallicRoughness.baseColorFactor[0],
+        name,
+      );
+    const baseColor = () => color('stainless');
     const before = await baseColor();
+    const sides = await color('stainless-brushed');
+    const glass = await color('screen');
 
     await group.getByRole('radio', { name: 'Black Stainless Steel' }).check();
     await expect(page.locator('[data-sku]')).toHaveText('FX-FRIDGE-BS');
@@ -25,6 +33,9 @@ test.describe('finish swatches (fixture catalog)', () => {
     await expect(page).toHaveURL(/\?finish=black-stainless$/);
     await expect(page.locator('[data-share-url]')).toHaveValue(`${fixtureProduct}?finish=black-stainless`);
     await expect.poll(baseColor).toBeCloseTo(before * 0.22, 3);
+    await expect.poll(() => color('stainless-brushed')).toBeCloseTo(sides * 0.22, 3);
+    // Only the finish materials change; glass, trim and the screen keep their colour.
+    expect(await color('screen')).toBeCloseTo(glass, 5);
     expect((await events(page)).some((e) => e.name === 'finish_selected')).toBe(true);
 
     // Keyboard: arrow keys move between swatches, and the base finish restores the original colour.

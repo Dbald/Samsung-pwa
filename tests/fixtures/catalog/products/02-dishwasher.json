@@ -21,15 +21,18 @@
   "assets": {
     "model": "models/dishwasher.glb",
     "usdz": null,
-    "source": "source/models/dishwasher.gltf",
+    "source": "source/generators/dishwasher.ts",
     "poster": "posters/dishwasher.webp",
     "posterAlt": "3D render of the StormWash Dishwasher with Top Controls in stainless steel, viewed from the front left.",
     "images": [],
-    "assetVersion": 1,
+    "assetVersion": 2,
     "scaleVerified": false,
     "placementType": "floor",
     "cameraOrbit": "-30deg 75deg auto",
-    "tintMaterials": null
+    "tintMaterials": [
+      "stainless",
+      "stainless-brushed"
+    ]
   },
   "commerce": {
     "retailerName": "Example Retailer",
