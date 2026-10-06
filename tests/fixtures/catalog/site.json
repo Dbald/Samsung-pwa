@@ -1,0 +1,27 @@
+{
+  "name": "Fixture Showroom",
+  "shortName": "Showroom",
+  "tagline": "Inspect kitchen appliances in 3D, check the details, then continue to the retailer.",
+  "demoNotice": null,
+  "lang": "en",
+  "themeColor": "#014495",
+  "backgroundColor": "#ffffff",
+  "allowedRetailerHosts": [
+    "retailer.example"
+  ],
+  "priceFreshnessDays": 30,
+  "cache": {
+    "maxPages": 8,
+    "maxModels": 2,
+    "maxPosters": 12
+  },
+  "analytics": {
+    "endpoint": null,
+    "requireConsent": false
+  },
+  "budgets": {
+    "maxModelBytes": 3000000,
+    "maxTriangles": 150000,
+    "scaleTolerance": 0.01
+  }
+}

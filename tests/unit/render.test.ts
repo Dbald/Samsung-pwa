@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Catalog } from '../../src/catalog/types';
-import { renderCatalog, renderProduct, renderRedirectRules, renderSite, type RenderContext } from '../../src/render/pages';
+import { renderCatalog, renderCompare, renderProduct, renderRedirectRules, renderSite, type RenderContext } from '../../src/render/pages';
 import { clone, fixtureProduct, real } from './fixtures';
 
 const ctx: RenderContext = { base: '/', asset: (p) => `/assets/${p}`, headTags: '', appVersion: 'test', now: new Date('2026-10-05T00:00:00Z') };
@@ -76,5 +76,36 @@ describe('page rendering', () => {
     const rules = renderRedirectRules(catalog(), '/showroom/');
     expect(rules).toContain('/showroom/pages/fridge.html /showroom/products/refrigerator-rf22n9781sr/ 301');
     expect(rules).toContain('/showroom/AR.html /showroom/ 301');
+  });
+
+  it('renders verified finishes as swatches, and none for single-finish products', () => {
+    const c = catalog();
+    const fx = renderProduct(c, c.products[4], ctx);
+    expect(fx.match(/type="radio" name="finish"/g)).toHaveLength(2);
+    expect(fx).toContain('data-variant-sku="FX-OVEN-01W"');
+    expect(fx).toContain('Available as Black Stainless, White Glass.');
+    // Only the retailer action may carry the hooks the offline guard and click tracking use.
+    expect(fx.match(/data-retailer[\s>]/g)).toHaveLength(1);
+    expect(fx.match(/data-sku[\s>]/g)).toHaveLength(1);
+    expect(renderProduct(c, c.products[0], ctx)).not.toContain('name="finish"');
+  });
+
+  it('rejects unverified or malformed finishes', async () => {
+    const { validateCatalog } = await import('../../src/catalog/validate');
+    const c = catalog();
+    c.products[4].variants[0].verifiedAt = '' as string;
+    c.products[4].variants[0].swatch = 'white';
+    const { errors } = validateCatalog(c, { assetExists: () => true });
+    expect(errors.some((e) => e.includes('offered finishes need'))).toBe(true);
+    expect(errors.some((e) => e.includes('swatch: hex colour'))).toBe(true);
+  });
+
+  it('renders a comparison column for every product with unverified values marked', () => {
+    const c = catalog();
+    const html = renderCompare(c, ctx);
+    expect(html.match(/<th scope="col" data-col=/g)).toHaveLength(c.products.length);
+    expect(html).toContain('Not verified');
+    expect(html).toContain('29.75 in (75.6 cm)');
+    expect(html).toContain('Black Stainless<br>White Glass');
   });
 });

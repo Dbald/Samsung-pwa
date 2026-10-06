@@ -9,6 +9,7 @@ export default defineConfig({
   publicDir: false,
   plugins: [showroomPlugin()],
   build: {
+    outDir: process.env.OUT_DIR ?? 'dist',
     target: 'es2022',
     // The 3D viewer is a separate lazy chunk; only it may exceed the default warning size.
     chunkSizeWarningLimit: 1200,

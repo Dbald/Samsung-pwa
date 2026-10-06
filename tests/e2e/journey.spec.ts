@@ -61,7 +61,7 @@ test('unknown pages return a helpful 404', async ({ page }) => {
 for (const width of [320, 390, 768, 1440]) {
   test(`no horizontal scrolling at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ['/', productUrl(flagship), productUrl(products[1])]) {
+    for (const path of ['/', productUrl(flagship), productUrl(products[1]), '/compare/']) {
       await page.goto(path);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       expect(overflow, `${path} at ${width}px`).toBeLessThanOrEqual(0);
@@ -70,7 +70,7 @@ for (const width of [320, 390, 768, 1440]) {
 }
 
 test('has no serious or critical automated accessibility findings', async ({ page }) => {
-  for (const path of ['/', productUrl(flagship), '/offline.html']) {
+  for (const path of ['/', productUrl(flagship), '/compare/', '/offline.html']) {
     await page.goto(path);
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).exclude('model-viewer').analyze();
     const blocking = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');

@@ -3,7 +3,13 @@ import type { ArMode } from '../analytics';
 import type { CreateViewer } from './types';
 
 // Minimal surface of the <model-viewer> element we rely on.
+interface MvMaterial {
+  name: string;
+  pbrMetallicRoughness: { baseColorFactor: number[]; setBaseColorFactor(rgba: number[]): void };
+}
+
 interface ModelViewerElement extends HTMLElement {
+  model?: { materials: MvMaterial[] };
   canActivateAR: boolean;
   activateAR(): Promise<void>;
   jumpCameraToGoal(): void;
@@ -58,6 +64,7 @@ export const createModelViewer: CreateViewer = async (stage, opts, cb) => {
 
   stage.append(mv);
   await customElements.whenDefined('model-viewer');
+  const originals = new Map<MvMaterial, number[]>();
 
   return {
     get canActivateAR() {
@@ -73,6 +80,14 @@ export const createModelViewer: CreateViewer = async (stage, opts, cb) => {
       return /Android/i.test(navigator.userAgent) ? 'scene-viewer' : 'unknown';
     },
     activateAR: () => mv.activateAR(),
+    setFinish(tint, materials) {
+      for (const m of mv.model?.materials ?? []) {
+        if (materials && !materials.includes(m.name)) continue;
+        if (!originals.has(m)) originals.set(m, [...m.pbrMetallicRoughness.baseColorFactor]);
+        const base = originals.get(m)!;
+        m.pbrMetallicRoughness.setBaseColorFactor(tint ? [base[0] * tint[0], base[1] * tint[1], base[2] * tint[2], base[3]] : base);
+      }
+    },
     reset() {
       mv.cameraOrbit = opts.cameraOrbit;
       mv.cameraTarget = 'auto auto auto';

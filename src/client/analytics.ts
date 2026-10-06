@@ -10,7 +10,9 @@ export type EventName =
   | 'ar_requested'
   | 'ar_started'
   | 'ar_failed'
-  | 'retailer_click';
+  | 'retailer_click'
+  | 'finish_selected'
+  | 'product_saved';
 
 export type ArMode = 'webxr' | 'scene-viewer' | 'quick-look' | 'unknown';
 export type DeviceClass = 'phone' | 'tablet' | 'desktop';

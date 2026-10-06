@@ -10,6 +10,8 @@
   "sku": "ME18H704SFS/AA",
   "description": "An over-the-range microwave with sensor cooking, installed above a cooktop.",
   "finish": "Fingerprint Resistant Stainless Steel",
+  "finishSwatch": "#c9ccd1",
+  "variants": [],
   "benefit": null,
   "features": [],
   "specifications": {
@@ -28,7 +30,8 @@
     "assetVersion": 1,
     "scaleVerified": false,
     "placementType": "wall",
-    "cameraOrbit": "-30deg 75deg auto"
+    "cameraOrbit": "-30deg 75deg auto",
+    "tintMaterials": null
   },
   "commerce": {
     "retailerName": "Samsung US",

@@ -61,7 +61,10 @@ ${ctx.headTags}
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <a class="brand" href="${ctx.base}"><img src="${ctx.asset('icons/icon.svg')}" alt="" width="32" height="32"><span>${esc(site.name)}</span></a>
-  <button type="button" class="btn btn--ghost install-btn" data-install hidden>Install app</button>
+  <div class="site-header__actions">
+    <a class="header-link" href="${ctx.base}compare/" data-saved-link hidden>Saved <span class="count" data-saved-count>0</span></a>
+    <button type="button" class="btn btn--ghost install-btn" data-install hidden>Install app</button>
+  </div>
 </header>
 <div class="net-status" data-net-status role="status" aria-live="polite" hidden></div>
 ${notice}
@@ -169,6 +172,31 @@ function viewerBlock(p: ProductRecord, ctx: RenderContext): string {
 </section>`;
 }
 
+function saveButton(p: ProductRecord, compact = false): string {
+  const label = compact ? `Save ${esc(p.title)}` : '';
+  return `<button type="button" class="btn btn--ghost save-btn${compact ? ' save-btn--compact' : ''}" data-save="${esc(p.id)}" aria-pressed="false"${
+    label ? ` aria-label="${label}"` : ''
+  } hidden><span aria-hidden="true" class="save-btn__icon">♡</span><span class="save-btn__text">Save</span></button>`;
+}
+
+/** Swatches for verified finishes. Without JavaScript the base finish facts remain correct. */
+function finishesBlock(p: ProductRecord): string {
+  if (!p.variants.length) return '';
+  const base = p.commerce.retailerUrl ?? '';
+  const option = (id: string, finish: string, sku: string, swatch: string, tint: string, retailer: string, checked: boolean) =>
+    `<label class="swatch" title="${esc(finish)}"><input type="radio" name="finish" value="${esc(id)}"${checked ? ' checked' : ''}
+      data-variant-finish="${esc(finish)}" data-variant-sku="${esc(sku)}" data-variant-tint="${tint}" data-variant-retailer="${esc(retailer)}">
+      <span class="swatch__chip" style="--swatch:${swatch}" aria-hidden="true"></span><span class="visually-hidden">${esc(finish)}</span></label>`;
+  return `<fieldset class="finishes" data-finishes data-tint-materials="${esc(JSON.stringify(p.assets.tintMaterials))}">
+    <legend>Finish: <span data-finish-legend>${esc(p.finish)}</span></legend>
+    <div class="finishes__list">
+      ${option('', p.finish, p.sku, p.finishSwatch, '', base, true)}
+      ${p.variants.map((v) => option(v.id, v.finish, v.sku, v.swatch, v.tint.join(','), v.retailerUrl, false)).join('\n      ')}
+    </div>
+    <p class="finishes__note">Available as ${[p.finish, ...p.variants.map((v) => v.finish)].map(esc).join(', ')}. Photos show ${esc(p.finish)}; the 3D view shows the selected finish.</p>
+  </fieldset>`;
+}
+
 function verificationBlock(p: ProductRecord): string {
   const s = p.specifications;
   const c = p.commerce;
@@ -201,13 +229,15 @@ export function renderProduct(catalog: Catalog, p: ProductRecord, ctx: RenderCon
     <p class="eyebrow">${esc(p.brand)} · ${category}</p>
     <h1>${esc(p.title)}</h1>
     <dl class="facts facts--inline">
-      <div><dt>Model</dt><dd>${esc(p.sku)}</dd></div>
-      <div><dt>Finish</dt><dd>${esc(p.finish)}</dd></div>
+      <div><dt>Model</dt><dd data-sku>${esc(p.sku)}</dd></div>
+      <div><dt>Finish</dt><dd data-finish-name>${esc(p.finish)}</dd></div>
     </dl>
+    ${finishesBlock(p)}
     <p class="lede">${esc(p.description)}</p>
     ${benefit}
     ${priceBlock(p, site, ctx.now)}
     ${retailerBlock(p)}
+    <div class="product__actions">${saveButton(p)}</div>
   </div>
 </article>
 <div class="product__details">
@@ -246,8 +276,9 @@ export function renderCatalog(catalog: Catalog, ctx: RenderContext): string {
     <span class="eyebrow">${CATEGORIES[p.category]}</span>
     <span class="card__title">${esc(p.title)}</span>
   </a>
-  <p class="card__meta">${esc(p.sku)} · ${esc(p.finish)}</p>
+  <p class="card__meta">${esc(p.sku)} · ${esc(p.finish)}${p.variants.length ? ` · ${p.variants.length + 1} finishes` : ''}</p>
   ${price}
+  ${saveButton(p, true)}
 </li>`;
     })
     .join('\n');
@@ -257,12 +288,78 @@ export function renderCatalog(catalog: Catalog, ctx: RenderContext): string {
   <a class="btn btn--primary" href="#catalog">Browse appliances</a>
 </section>
 <section class="catalog" id="catalog" aria-labelledby="catalog-h" tabindex="-1">
-  <h2 id="catalog-h">Kitchen appliances</h2>
+  <div class="catalog__head">
+    <h2 id="catalog-h">Kitchen appliances</h2>
+    <a class="btn btn--ghost" href="${ctx.base}compare/">Compare appliances</a>
+  </div>
   <ul class="grid">
 ${cards}
   </ul>
 </section>`;
   return layout(site, ctx, { title: site.name, description: site.tagline, page: 'catalog', main });
+}
+
+function dimsText(p: ProductRecord, k: 'width' | 'height' | 'depth'): string {
+  const ext = p.specifications.exterior;
+  return ext ? `${ext[k]} ${ext.unit} (${(toMeters(ext[k], ext.unit) * 100).toFixed(1)} cm)` : '<span class="pending">Not verified</span>';
+}
+
+/**
+ * Side-by-side comparison. Every product is rendered so the page works without
+ * JavaScript and offline; the client narrows it to `?ids=` or the saved list.
+ */
+export function renderCompare(catalog: Catalog, ctx: RenderContext): string {
+  const { site, products } = catalog;
+  const col = (p: ProductRecord, body: string, head = false) =>
+    head ? `<th scope="col" data-col="${esc(p.id)}">${body}</th>` : `<td data-col="${esc(p.id)}">${body}</td>`;
+  const row = (label: string, cell: (p: ProductRecord) => string) =>
+    `<tr><th scope="row">${label}</th>${products.map((p) => col(p, cell(p))).join('')}</tr>`;
+  const retailer = (p: ProductRecord) =>
+    p.commerce.retailerUrl && p.commerce.retailerStatus !== 'invalid'
+      ? `<a href="${esc(p.commerce.retailerUrl)}" rel="noopener">View at ${esc(p.commerce.retailerName)}</a>`
+      : 'Unavailable';
+  const price = (p: ProductRecord) => {
+    const html = priceBlock(p, site, ctx.now);
+    return html || '<span class="pending">Not shown</span>';
+  };
+  const main = `<nav class="crumbs" aria-label="Breadcrumb"><a href="${ctx.base}#catalog">← All appliances</a></nav>
+<section aria-labelledby="compare-h">
+  <h1 id="compare-h">Compare appliances</h1>
+  <p class="lede" data-compare-intro>Showing every appliance. Save products to compare only those.</p>
+  <div class="compare-scroll" role="region" aria-labelledby="compare-h" tabindex="0">
+    <table class="compare">
+      <caption class="visually-hidden">Appliance comparison. Each column is one product.</caption>
+      <thead><tr><td></td>${products
+        .map((p) =>
+          col(
+            p,
+            `<a class="compare__product" href="${ctx.base}${productPath(p)}"><img src="${ctx.asset(p.assets.poster)}" alt="" width="160" height="160" loading="lazy"><span>${esc(p.title)}</span></a>
+            <button type="button" class="btn btn--ghost compare__remove" data-remove="${esc(p.id)}" hidden>Remove<span class="visually-hidden"> ${esc(p.title)}</span></button>`,
+            true,
+          ),
+        )
+        .join('')}</tr></thead>
+      <tbody>
+        ${row('Category', (p) => CATEGORIES[p.category])}
+        ${row('Model', (p) => esc(p.sku))}
+        ${row('Finishes', (p) => [p.finish, ...p.variants.map((v) => v.finish)].map(esc).join('<br>'))}
+        ${row('Width', (p) => dimsText(p, 'width'))}
+        ${row('Height', (p) => dimsText(p, 'height'))}
+        ${row('Depth', (p) => dimsText(p, 'depth'))}
+        ${row('Price', price)}
+        ${row('In-room preview', (p) => (arEnabled(p) ? 'Available on supported phones' : 'Not yet available'))}
+        ${row('Retailer', retailer)}
+      </tbody>
+    </table>
+  </div>
+  <p class="pending" data-compare-empty hidden>None of the selected products are in the catalog. <a href="${ctx.base}compare/">Show all appliances</a>.</p>
+</section>`;
+  return layout(site, ctx, {
+    title: `Compare appliances | ${site.name}`,
+    description: 'Compare kitchen appliances side by side.',
+    page: 'compare',
+    main,
+  });
 }
 
 export function renderOffline(catalog: Catalog, ctx: RenderContext): string {
@@ -334,6 +431,7 @@ export function renderSite(catalog: Catalog, ctx: RenderContext): SitePage[] {
     { file: 'index.html', html: renderCatalog(catalog, ctx) },
     { file: 'offline.html', html: renderOffline(catalog, ctx) },
     { file: '404.html', html: renderNotFound(catalog, ctx) },
+    { file: 'compare/index.html', html: renderCompare(catalog, ctx) },
     { file: 'AR.html', html: renderRedirect(ctx.base) },
   ];
   for (const p of catalog.products) {

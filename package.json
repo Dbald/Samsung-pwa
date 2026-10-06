@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:fixture": "CATALOG_DIR=tests/fixtures/catalog OUT_DIR=dist-fixture vite build --logLevel warn",
     "preview": "tsx scripts/serve.ts",
     "validate": "tsx scripts/validate-catalog.ts",
     "validate:release": "tsx scripts/validate-catalog.ts --release",
@@ -19,7 +20,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "check": "npm run validate && npm run typecheck && npm test && npm run build && npm run test:e2e"
+    "check": "npm run validate && npm run typecheck && npm test && npm run build && npm run build:fixture && npm run test:e2e"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

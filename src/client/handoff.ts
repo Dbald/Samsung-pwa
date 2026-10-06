@@ -7,13 +7,20 @@ export function initHandoff(section: HTMLElement) {
   const qrBox = section.querySelector<HTMLElement>('[data-qr]')!;
   const qrText = section.querySelector<HTMLElement>('[data-qr-text]')!;
 
-  // Absolute URL to this product, without query or hash, so it opens without context.
-  const url = new URL(input.value, location.origin).href;
-  input.value = url;
+  // Absolute URL to this product. Only the finish survives from the query, so the
+  // link opens the same product and finish without other context.
+  const path = new URL(input.value, location.origin);
+  let url = '';
+  const currentUrl = () => {
+    const u = new URL(path);
+    const finish = new URLSearchParams(location.search).get('finish');
+    if (finish) u.searchParams.set('finish', finish);
+    return u.href;
+  };
 
   copy.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(input.value);
       status.textContent = 'Link copied.';
     } catch {
       input.focus();
@@ -24,7 +31,10 @@ export function initHandoff(section: HTMLElement) {
 
   const desktop = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)');
   const render = async () => {
-    if (!desktop.matches || qrBox.childElementCount) return;
+    const next = currentUrl();
+    input.value = next;
+    if (!desktop.matches || (next === url && qrBox.childElementCount)) return;
+    url = next;
     const { default: qrcode } = await import('qrcode-generator');
     const qr = qrcode(0, 'M');
     qr.addData(url);
@@ -34,4 +44,5 @@ export function initHandoff(section: HTMLElement) {
   };
   desktop.addEventListener('change', render);
   void render();
+  return { refresh: () => void render() };
 }

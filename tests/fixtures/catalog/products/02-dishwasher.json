@@ -1,14 +1,12 @@
 {
-  "id": "ne58r9431ss",
-  "slug": "range-ne58r9431ss",
-  "legacyPaths": [
-    "pages/range.html"
-  ],
-  "category": "range",
-  "brand": "Samsung",
-  "title": "5.8 cu. ft. Slide-In Electric Range",
-  "sku": "NE58R9431SS/AA",
-  "description": "A slide-in electric range with a 5.8 cu. ft. oven.",
+  "id": "fx-dishwasher",
+  "slug": "dishwasher-fx-dishwasher",
+  "legacyPaths": [],
+  "category": "dishwasher",
+  "brand": "Fixture Brand",
+  "title": "StormWash Dishwasher with Top Controls",
+  "sku": "FX-DW-1",
+  "description": "A built-in StormWash dishwasher with top-mounted controls.",
   "finish": "Stainless Steel",
   "finishSwatch": "#c9ccd1",
   "variants": [],
@@ -21,11 +19,11 @@
     "clearances": null
   },
   "assets": {
-    "model": "models/range.glb",
+    "model": "models/dishwasher.glb",
     "usdz": null,
-    "source": "source/models/range.gltf",
-    "poster": "posters/range.webp",
-    "posterAlt": "3D render of the 5.8 cu. ft. Slide-In Electric Range in stainless steel, viewed from the front left.",
+    "source": "source/models/dishwasher.gltf",
+    "poster": "posters/dishwasher.webp",
+    "posterAlt": "3D render of the StormWash Dishwasher with Top Controls in stainless steel, viewed from the front left.",
     "images": [],
     "assetVersion": 1,
     "scaleVerified": false,
@@ -34,11 +32,11 @@
     "tintMaterials": null
   },
   "commerce": {
-    "retailerName": "Samsung US",
-    "retailerUrl": "https://www.samsung.com/us/home-appliances/ranges/electric/5-8-cu--ft--slide-in-electric-range-in-stainless-steel-ne58r9431ss-aa/",
+    "retailerName": "Example Retailer",
+    "retailerUrl": "https://retailer.example/fx-dw-1",
     "retailerStatus": "unverified",
     "retailerCheckedAt": null,
-    "price": 1199,
+    "price": 649,
     "currency": "USD",
     "priceVerifiedAt": null,
     "priceSource": "recorded in the 2020 prototype",

@@ -6,7 +6,7 @@ import { createServer, type Server } from 'node:http';
 import { extname, join, normalize } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const root = join(import.meta.dirname, '..', 'dist');
+const root = join(import.meta.dirname, '..', process.env.DIST ?? 'dist');
 
 const MIME: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',

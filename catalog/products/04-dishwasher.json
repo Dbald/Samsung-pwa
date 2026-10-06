@@ -10,6 +10,8 @@
   "sku": "DW80K7050US/AA",
   "description": "A built-in StormWash dishwasher with top-mounted controls.",
   "finish": "Stainless Steel",
+  "finishSwatch": "#c9ccd1",
+  "variants": [],
   "benefit": null,
   "features": [],
   "specifications": {
@@ -28,7 +30,8 @@
     "assetVersion": 1,
     "scaleVerified": false,
     "placementType": "floor",
-    "cameraOrbit": "-30deg 75deg auto"
+    "cameraOrbit": "-30deg 75deg auto",
+    "tintMaterials": null
   },
   "commerce": {
     "retailerName": "Samsung US",

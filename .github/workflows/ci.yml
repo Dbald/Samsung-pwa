@@ -26,6 +26,8 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Build fixture catalog for browser tests
+        run: npm run build:fixture
       - name: Install browser
         run: npx playwright install --with-deps chromium
       - name: Browser tests

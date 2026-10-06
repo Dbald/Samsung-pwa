@@ -1,17 +1,30 @@
 {
-  "id": "rf22n9781sr",
-  "slug": "refrigerator-rf22n9781sr",
-  "legacyPaths": [
-    "pages/fridge.html"
-  ],
+  "id": "fx-fridge",
+  "slug": "refrigerator-fx-fridge",
+  "legacyPaths": [],
   "category": "refrigerator",
-  "brand": "Samsung",
-  "title": "22 cu. ft. Family Hub Counter Depth 4-Door Flex Refrigerator",
-  "sku": "RF22N9781SR/AA",
+  "brand": "Fixture Brand",
+  "title": "Fixture French Door Refrigerator",
+  "sku": "FX-FRIDGE-SS",
   "description": "A counter-depth, four-door Flex refrigerator with a Family Hub touch screen.",
   "finish": "Stainless Steel",
   "finishSwatch": "#c9ccd1",
-  "variants": [],
+  "variants": [
+    {
+      "id": "black-stainless",
+      "finish": "Black Stainless Steel",
+      "sku": "FX-FRIDGE-BS",
+      "swatch": "#3a3c40",
+      "tint": [
+        0.22,
+        0.22,
+        0.24
+      ],
+      "retailerUrl": "https://retailer.example/fx-fridge-bs",
+      "sourceUrl": "https://retailer.example/fx-fridge-bs/specs",
+      "verifiedAt": "2026-09-01"
+    }
+  ],
   "benefit": null,
   "features": [],
   "specifications": {
@@ -34,8 +47,8 @@
     "tintMaterials": null
   },
   "commerce": {
-    "retailerName": "Samsung US",
-    "retailerUrl": "https://www.samsung.com/us/home-appliances/refrigerators/4-door-flex/22-cu--ft--counter-depth-4-door-flex--with-21-5-in--connected-touch-screen-family-hub--refrigerator-rf22n9781sr-aa/",
+    "retailerName": "Example Retailer",
+    "retailerUrl": "https://retailer.example/fx-fridge-ss",
     "retailerStatus": "unverified",
     "retailerCheckedAt": null,
     "price": 3499,
@@ -45,7 +58,7 @@
     "demoStatus": "historical"
   },
   "governance": {
-    "assetOwner": "Unknown (2020 prototype export, rights under review)",
+    "assetOwner": "Fixture",
     "license": null,
     "attribution": null,
     "approvalStatus": "pending",
