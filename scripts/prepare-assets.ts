@@ -1,4 +1,7 @@
-// Packages each record's source glTF export as a runtime GLB in assets/models/.
+// Packages each record's source as a runtime GLB in assets/models/.
+// A `.ts` source is a parametric generator (assets/source/generators/): it is built
+// at the verified exterior size when one exists, otherwise at its nominal size.
+// Any other source is a glTF export, cleaned up as follows:
 //   - drops empty camera/light placeholder nodes left by the Blender exporter
 //   - bakes transforms, dedups and prunes unused data
 //   - moves the pivot to the bottom-centre of the product (floor contact point)
@@ -7,8 +10,10 @@
 // Source exports stay in assets/source/ and are never deployed.
 import { mkdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { NodeIO } from '@gltf-transform/core';
 import { dedup, flatten, getBounds, prune, transformMesh } from '@gltf-transform/functions';
+import type { Generator, Size } from '../assets/source/generators/lib';
 import type { ProductRecord } from '../src/catalog/types';
 import { toMeters } from '../src/catalog/validate';
 import { ASSETS_DIR, readCatalogRaw } from '../src/node/catalog-fs';
@@ -19,6 +24,26 @@ const only = process.argv.slice(2);
 
 for (const p of products) {
   if (only.length && !only.includes(p.id)) continue;
+  const ext = p.specifications.exterior;
+  const out = join(ASSETS_DIR, p.assets.model);
+  mkdirSync(dirname(out), { recursive: true });
+
+  if (p.assets.source.endsWith('.ts')) {
+    const mod = (await import(pathToFileURL(join(ASSETS_DIR, p.assets.source)).href)) as { build: Generator; nominal: Size };
+    const size: Size = ext
+      ? { width: toMeters(ext.width, ext.unit), height: toMeters(ext.height, ext.unit), depth: toMeters(ext.depth, ext.unit) }
+      : mod.nominal;
+    const doc = mod.build(size);
+    await doc.transform(dedup(), prune());
+    await io.write(out, doc);
+    const { min, max } = getBounds(doc.getRoot().getDefaultScene()!);
+    console.log(
+      `${p.id}: ${p.assets.model}  ${(statSync(out).size / 1e6).toFixed(2)} MB  generated at ${ext ? 'verified' : 'nominal'} size ` +
+        [0, 1, 2].map((k) => (max[k] - min[k]).toFixed(3)).join(' × ') + ' m',
+    );
+    continue;
+  }
+
   const doc = await io.read(join(ASSETS_DIR, p.assets.source));
   const root = doc.getRoot();
 
@@ -36,15 +61,12 @@ for (const p of products) {
 
   const scene = root.getDefaultScene() ?? root.listScenes()[0];
   let { min, max } = getBounds(scene);
-  const ext = p.specifications.exterior;
   const scale = ext ? toMeters(ext.height, ext.unit) / (max[1] - min[1]) : 1;
   const offset = [-(min[0] + max[0]) / 2, -min[1], -(min[2] + max[2]) / 2];
   const m = [scale, 0, 0, 0, 0, scale, 0, 0, 0, 0, scale, 0, offset[0] * scale, offset[1] * scale, offset[2] * scale, 1] as const;
   for (const mesh of root.listMeshes()) transformMesh(mesh, m as unknown as Parameters<typeof transformMesh>[1]);
 
   await doc.transform(dedup(), prune());
-  const out = join(ASSETS_DIR, p.assets.model);
-  mkdirSync(dirname(out), { recursive: true });
   await io.write(out, doc);
 
   ({ min, max } = getBounds(scene));

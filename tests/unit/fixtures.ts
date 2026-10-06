@@ -16,6 +16,19 @@ export function fixtureProduct(overrides: Partial<ProductRecord> = {}): ProductR
     sku: 'FX-OVEN-01',
     description: 'A fixture record used to prove the catalog is data driven.',
     finish: 'Black Stainless',
+    finishSwatch: '#3a3c40',
+    variants: [
+      {
+        id: 'white',
+        finish: 'White Glass',
+        sku: 'FX-OVEN-01W',
+        swatch: '#f2f2ef',
+        tint: [0.95, 0.95, 0.93],
+        retailerUrl: 'https://retailer.example/fx-oven-01w',
+        sourceUrl: 'https://retailer.example/fx-oven-01w/specs',
+        verifiedAt: '2026-09-01',
+      },
+    ],
     benefit: { text: 'Preheats while you prep.', sourceUrl: 'https://retailer.example/fx-oven-01', verifiedAt: '2026-09-01' },
     features: [{ title: 'Convection', text: 'Fan-assisted baking.' }],
     specifications: {
@@ -35,6 +48,7 @@ export function fixtureProduct(overrides: Partial<ProductRecord> = {}): ProductR
       scaleVerified: false,
       placementType: 'floor',
       cameraOrbit: '0deg 75deg auto',
+      tintMaterials: null,
     },
     commerce: {
       retailerName: 'Example Retailer',

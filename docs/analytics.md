@@ -19,6 +19,8 @@ queued until the page calls `window.showroom.grantConsent()`.
 | `ar_started` | A WebXR session started. Native viewers don't report this |
 | `ar_failed` | AR failed where the platform reports it |
 | `retailer_click` | The retailer link was followed while online |
+| `finish_selected` | A finish swatch was chosen. `detail` is the variant id or `base` |
+| `product_saved` | Save was toggled. `detail` is `<productId>:saved` or `<productId>:removed` |
 
 Every event carries `eventId` (for deduplicating retries), `sessionId` (random, per
 tab), `productId`, `appVersion`, `deviceClass` (`phone`, `tablet` or `desktop`) and `ts`.

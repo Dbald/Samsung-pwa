@@ -28,6 +28,7 @@ export interface ValidationResult {
 
 const ID_RE = /^[a-z0-9][a-z0-9-]*$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const HEX_RE = /^#[0-9a-f]{6}$/i;
 const TO_METERS = { in: 0.0254, cm: 0.01, mm: 0.001 } as const;
 
 type Raw = Record<string, unknown>;
@@ -98,6 +99,27 @@ export function validateCatalog(raw: unknown, ctx: ValidationContext): Validatio
       err(`category: "${String(p.category)}" is not one of ${Object.keys(CATEGORIES).join(', ')}`);
     for (const key of ['brand', 'title', 'sku', 'description', 'finish'] as const) if (!isStr(p[key])) err(`${key}: required text`);
 
+    if (!isStr(p.finishSwatch) || !HEX_RE.test(p.finishSwatch)) err('finishSwatch: hex colour like #c9ccd1');
+    if (!Array.isArray(p.variants)) err('variants: expected an array (may be empty)');
+    else {
+      const ids = new Set<string>();
+      p.variants.forEach((v, k) => {
+        const at = `variants[${k}]`;
+        if (!isObj(v)) return err(`${at}: expected an object`);
+        if (!isStr(v.id) || !ID_RE.test(v.id)) err(`${at}.id: lowercase letters, digits and dashes`);
+        else if (ids.has(v.id)) err(`${at}.id: duplicate "${v.id}"`);
+        else ids.add(v.id);
+        if (!isStr(v.finish) || !isStr(v.sku)) err(`${at}: finish and sku are required`);
+        if (!isStr(v.swatch) || !HEX_RE.test(v.swatch)) err(`${at}.swatch: hex colour like #2b2d31`);
+        if (!Array.isArray(v.tint) || v.tint.length !== 3 || v.tint.some((n) => !isNum(n) || n < 0 || n > 1))
+          err(`${at}.tint: three numbers between 0 and 1`);
+        if (!isHttpsUrl(v.retailerUrl)) err(`${at}.retailerUrl: https URL required`);
+        else if (!allowedHosts.includes(new URL(v.retailerUrl).hostname)) err(`${at}.retailerUrl: host is not in site.allowedRetailerHosts`);
+        // Only finishes confirmed for this SKU family may be offered.
+        if (!isHttpsUrl(v.sourceUrl) || !isDate(v.verifiedAt)) err(`${at}: offered finishes need an https sourceUrl and a verifiedAt date`);
+      });
+    }
+
     if (p.benefit !== null) {
       const b = p.benefit;
       if (!isObj(b) || !isStr(b.text) || !isHttpsUrl(b.sourceUrl) || !isDate(b.verifiedAt))
@@ -143,6 +165,8 @@ export function validateCatalog(raw: unknown, ctx: ValidationContext): Validatio
       if (typeof a.scaleVerified !== 'boolean') err('assets.scaleVerified: boolean');
       if (!['floor', 'wall', 'none'].includes(a.placementType as string)) err('assets.placementType: floor | wall | none');
       if (!isStr(a.cameraOrbit)) err('assets.cameraOrbit: approved framing required');
+      if (a.tintMaterials !== null && (!Array.isArray(a.tintMaterials) || a.tintMaterials.some((m) => !isStr(m))))
+        err('assets.tintMaterials: list of material names, or null for all');
 
       if (a.scaleVerified === true && !exteriorMeters) err('assets.scaleVerified: cannot be true without verified exterior dimensions');
       if (a.placementType !== 'none' && a.scaleVerified !== true)

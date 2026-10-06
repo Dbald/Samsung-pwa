@@ -35,6 +35,24 @@ export interface Feature {
   text: string;
 }
 
+/**
+ * An additional finish of the same product. Only finishes confirmed for the SKU
+ * family belong here: each needs its own SKU, retailer listing and source.
+ */
+export interface FinishVariant {
+  /** Lowercase id used in the `?finish=` URL parameter. */
+  id: string;
+  finish: string;
+  sku: string;
+  /** Hex colour for the swatch chip. */
+  swatch: string;
+  /** Linear RGB multiplier applied to the model's finish materials in the 3D view. */
+  tint: [number, number, number];
+  retailerUrl: string;
+  sourceUrl: string;
+  verifiedAt: string;
+}
+
 export interface ProductRecord {
   id: string;
   slug: string;
@@ -46,6 +64,10 @@ export interface ProductRecord {
   sku: string;
   description: string;
   finish: string;
+  /** Hex colour for the base finish swatch. */
+  finishSwatch: string;
+  /** Additional verified finishes; empty when the product has one finish. */
+  variants: FinishVariant[];
   benefit: Benefit | null;
   features: Feature[];
   specifications: {
@@ -74,6 +96,8 @@ export interface ProductRecord {
     placementType: PlacementType;
     /** Approved default framing, in model-viewer camera-orbit syntax. */
     cameraOrbit: string;
+    /** Material names recoloured by finish variants; `null` recolours every material. */
+    tintMaterials: string[] | null;
   };
   commerce: {
     retailerName: string;

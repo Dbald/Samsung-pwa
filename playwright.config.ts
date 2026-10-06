@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Runs against the production build served like the static host (scripts/serve.ts).
-// Build first: `npm run build && npm run test:e2e`.
+// Build first: `npm run build && npm run build:fixture && npm run test:e2e`.
 
 const gl = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'];
 
@@ -17,5 +17,9 @@ export default defineConfig({
     { name: 'desktop', use: { ...devices['Desktop Chrome'], launchOptions: { args: gl } } },
     { name: 'mobile', use: { ...devices['Pixel 7'], launchOptions: { args: gl } } },
   ],
-  webServer: { command: 'tsx scripts/serve.ts', url: 'http://localhost:4173', reuseExistingServer: !process.env.CI },
+  webServer: [
+    { command: 'tsx scripts/serve.ts', url: 'http://localhost:4173', reuseExistingServer: !process.env.CI },
+    // Fixture catalog (tests/fixtures/catalog) with finish variants: `npm run build:fixture`.
+    { command: 'tsx scripts/serve.ts', url: 'http://localhost:4174', env: { PORT: '4174', DIST: 'dist-fixture' }, reuseExistingServer: !process.env.CI },
+  ],
 });

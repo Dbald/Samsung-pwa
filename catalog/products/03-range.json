@@ -10,6 +10,8 @@
   "sku": "NE58R9431SS/AA",
   "description": "A slide-in electric range with a 5.8 cu. ft. oven.",
   "finish": "Stainless Steel",
+  "finishSwatch": "#c9ccd1",
+  "variants": [],
   "benefit": null,
   "features": [],
   "specifications": {
@@ -21,14 +23,18 @@
   "assets": {
     "model": "models/range.glb",
     "usdz": null,
-    "source": "source/models/range.gltf",
+    "source": "source/generators/range.ts",
     "poster": "posters/range.webp",
     "posterAlt": "3D render of the 5.8 cu. ft. Slide-In Electric Range in stainless steel, viewed from the front left.",
     "images": [],
-    "assetVersion": 1,
+    "assetVersion": 2,
     "scaleVerified": false,
     "placementType": "floor",
-    "cameraOrbit": "-30deg 75deg auto"
+    "cameraOrbit": "-30deg 75deg auto",
+    "tintMaterials": [
+      "stainless",
+      "stainless-brushed"
+    ]
   },
   "commerce": {
     "retailerName": "Samsung US",
@@ -42,8 +48,8 @@
     "demoStatus": "historical"
   },
   "governance": {
-    "assetOwner": "Unknown (2020 prototype export, rights under review)",
-    "license": null,
+    "assetOwner": "Generated in this repository (assets/source/generators)",
+    "license": "Same terms as this repository",
     "attribution": null,
     "approvalStatus": "pending",
     "fallbackReason": "AR is hidden until model scale has been checked against verified dimensions."

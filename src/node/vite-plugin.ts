@@ -14,7 +14,7 @@ import {
   renderSite,
   type RenderContext,
 } from '../render/pages';
-import { ASSETS_DIR, ROOT, formatReport, loadCatalog } from './catalog-fs';
+import { ASSETS_DIR, CATALOG_DIR, ROOT, formatReport, loadCatalog } from './catalog-fs';
 
 const MIME: Record<string, string> = {
   '.glb': 'model/gltf-binary',
@@ -89,9 +89,9 @@ export function showroomPlugin(): Plugin {
 
     configureServer(server) {
       const base = config.base;
-      server.watcher.add([join(ROOT, 'catalog'), ASSETS_DIR]);
+      server.watcher.add([CATALOG_DIR, ASSETS_DIR]);
       server.watcher.on('change', (file) => {
-        if (file.startsWith(join(ROOT, 'catalog'))) server.ws.send({ type: 'full-reload' });
+        if (file.startsWith(CATALOG_DIR)) server.ws.send({ type: 'full-reload' });
       });
       server.middlewares.use(async (req, res, next) => {
         const url = new URL(req.url ?? '/', 'http://dev.local');
@@ -184,6 +184,7 @@ export function showroomPlugin(): Plugin {
       const precache = [
         base,
         `${base}offline.html`,
+        `${base}compare/`,
         `${base}manifest.webmanifest`,
         `${base}${entry!.fileName}`,
         ...entry!.imports.map((f) => `${base}${f}`),

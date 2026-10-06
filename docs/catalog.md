@@ -6,11 +6,18 @@ The unit test "accepts a fifth product from another brand" proves this.
 
 ## Add a product
 
-1. **Assets.** Put the original export in `assets/source/models/`. Add an entry for it in
-   a new record, then run `npm run assets -- <id>` to package it as a GLB in
-   `assets/models/`. The script drops exporter placeholders, bakes transforms and puts the
-   pivot at the bottom centre. When the record has verified exterior dimensions, it scales
-   the model to meters from the spec height and prints the width and depth deviation.
+1. **Assets.** `assets.source` is either a parametric generator in
+   `assets/source/generators/` (preferred) or an original glTF export in
+   `assets/source/models/`. Run `npm run assets -- <id>` to package it as a GLB in
+   `assets/models/`.
+   - **Generators** build the model at the verified exterior size when one exists, and
+     at the category's nominal size otherwise. The model is generated in this repository,
+     so it has no third-party rights. Parts use named PBR materials (`stainless`,
+     `black-glass`, `window`, `display` and others) so finishes can recolour only the
+     right parts.
+   - **Exports** are cleaned up: exporter placeholders are dropped, transforms baked and
+     the pivot moved to the bottom centre. With verified dimensions, the export is scaled
+     to meters from the spec height and the width and depth deviation is printed.
 2. **Poster.** Run `npm run posters -- <id>` to render `assets/posters/<name>.webp` from the
    approved framing (`assets.cameraOrbit`).
 3. **Record.** Copy an existing record and fill in each field. Leave a field `null` until
@@ -21,11 +28,12 @@ The unit test "accepts a fifth product from another brand" proves this.
 
 | Group | Fields | Notes |
 | --- | --- | --- |
-| Identity | `id`, `slug`, `category`, `brand`, `title`, `sku`, `description`, `finish` | `id` and `slug` are unique, lowercase and dashed. The product URL is `/products/<slug>/`. |
+| Identity | `id`, `slug`, `category`, `brand`, `title`, `sku`, `description`, `finish`, `finishSwatch` | `id` and `slug` are unique, lowercase and dashed. The product URL is `/products/<slug>/`. |
+| Finishes | `variants[]`: `id`, `finish`, `sku`, `swatch`, `tint`, `retailerUrl`, `sourceUrl`, `verifiedAt` | Only finishes confirmed for the SKU family. Each one shows as a swatch. |
 | Legacy | `legacyPaths` | Old URLs that must redirect to this product. |
 | Story | `benefit`, `features` | `benefit` is one verified everyday benefit with `sourceUrl` and `verifiedAt`, or `null`. |
-| Specifications | `specifications.exterior` `{width,height,depth,unit}`, `sourceUrl`, `verifiedAt`, `clearances` | Exterior size and installation clearances are kept apart. |
-| Assets | `model` (.glb), `usdz`, `source`, `poster`, `posterAlt`, `images`, `assetVersion`, `scaleVerified`, `placementType` (`floor`, `wall` or `none`), `cameraOrbit` | Paths are relative to `assets/`. |
+| Specifications | `specifications.exterior` `{width,height,depth,unit}`, `sourceUrl`, `verifiedAt`, `clearances` | Exterior size and installation clearances are kept apart. `depth` is the **overall depth including handles**, because that is what the model's bounds and the 1% check measure. |
+| Assets | `model` (.glb), `usdz`, `source`, `poster`, `posterAlt`, `images`, `assetVersion`, `scaleVerified`, `placementType` (`floor`, `wall` or `none`), `cameraOrbit`, `tintMaterials` | Paths are relative to `assets/`. `tintMaterials` names the materials a finish recolours (`null` recolours all). |
 | Commerce | `retailerName`, `retailerUrl`, `retailerStatus` (`verified`, `unverified` or `invalid`), `retailerCheckedAt`, `price`, `currency`, `priceVerifiedAt`, `priceSource`, `demoStatus` (`historical` or `current`) | |
 | Governance | `assetOwner`, `license`, `attribution`, `approvalStatus` (`pending`, `approved` or `rejected`), `fallbackReason` | |
 
@@ -58,6 +66,31 @@ These are warnings in every mode:
 - **AR.** AR is offered only when `scaleVerified` is true and `placementType` is not
   `none`. The page says why when it isn't.
 - **Dimensions.** Missing dimensions show "not yet verified". They are never estimated.
+
+## Finish variants
+
+Add a variant only when the retailer or manufacturer lists that finish for the same model
+family. For example:
+
+```json
+"variants": [
+  {
+    "id": "black-stainless",
+    "finish": "Black Stainless Steel",
+    "sku": "RF22N9781SG/AA",
+    "swatch": "#3a3c40",
+    "tint": [0.22, 0.22, 0.24],
+    "retailerUrl": "https://www.samsung.com/…",
+    "sourceUrl": "https://www.samsung.com/…",
+    "verifiedAt": "2026-10-06"
+  }
+]
+```
+
+On the page, the swatches update the model number, finish and retailer link, and recolour
+`tintMaterials` in the 3D view. The choice is kept in `?finish=`, so copied links and the
+desktop QR code open the same finish. Photos keep showing the base finish, and the page
+says so.
 
 ## Another brand
 

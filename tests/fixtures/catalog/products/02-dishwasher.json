@@ -1,13 +1,11 @@
 {
-  "id": "dw80k7050us",
-  "slug": "dishwasher-dw80k7050us",
-  "legacyPaths": [
-    "pages/dishwasher.html"
-  ],
+  "id": "fx-dishwasher",
+  "slug": "dishwasher-fx-dishwasher",
+  "legacyPaths": [],
   "category": "dishwasher",
-  "brand": "Samsung",
+  "brand": "Fixture Brand",
   "title": "StormWash Dishwasher with Top Controls",
-  "sku": "DW80K7050US/AA",
+  "sku": "FX-DW-1",
   "description": "A built-in StormWash dishwasher with top-mounted controls.",
   "finish": "Stainless Steel",
   "finishSwatch": "#c9ccd1",
@@ -37,8 +35,8 @@
     ]
   },
   "commerce": {
-    "retailerName": "Samsung US",
-    "retailerUrl": "https://www.samsung.com/us/home-appliances/dishwashers/rotary/dw80k7050us-aa-dw80k7050us-aa/",
+    "retailerName": "Example Retailer",
+    "retailerUrl": "https://retailer.example/fx-dw-1",
     "retailerStatus": "unverified",
     "retailerCheckedAt": null,
     "price": 649,
@@ -48,8 +46,8 @@
     "demoStatus": "historical"
   },
   "governance": {
-    "assetOwner": "Generated in this repository (assets/source/generators)",
-    "license": "Same terms as this repository",
+    "assetOwner": "Unknown (2020 prototype export, rights under review)",
+    "license": null,
     "attribution": null,
     "approvalStatus": "pending",
     "fallbackReason": "AR is hidden until model scale has been checked against verified dimensions."

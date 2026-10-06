@@ -18,25 +18,33 @@ purpose until the decisions below are made.
 | F07 Installation and offline | Done in automation | `manifest.webmanifest`, `src/sw/sw.js`, `pwa.ts` | The manifest, maskable icons, install button and iOS instructions are in place. Offline, the shell, recent pages and posters work, and uncached models, AR and the retailer show unavailable states (tested). **Install still needs checking on real Android and iOS devices.** |
 | F08 Cache updates and freshness | Done | `sw.js`, `vite-plugin.ts` | Asset URLs are hashed, caches are versioned and bounded, and an update prompt replaces hard refreshes. Pages are network-first. Prices expire on the client too. |
 | F09 Accessibility | Automated checks pass | `tests/e2e/journey.spec.ts` | axe reports no serious or critical findings (WCAG 2.2 AA tags), and the keyboard path to the retailer works without 3D. Primary targets are at least 44 px and reduced motion is respected. **VoiceOver and TalkBack passes are still needed.** |
+| P1 Shopping tools (issue #5) | Done | `finishes.ts`, `saved.ts`, `compare.ts` | Finish swatches recolour the 3D model and update the model number, retailer link and shared link. They appear only for verified variants, and the real catalog has none yet. Saving and comparing work offline and without accounts (tested against the fixture catalog). |
 | F10 Reusable catalog maintenance | Done | `docs/catalog.md`, unit tests | A fifth product from another brand validates and renders from data alone. Missing assets, duplicate IDs, unverified scale and bad URLs are all caught. |
 
-## Asset audit (prototype models)
+## Models
 
-Each figure is the packaged GLB from `npm run validate`. All four fit the 3 MB and
-150k-triangle budgets.
+All four products now use models generated in this repository
+(`assets/source/generators/`), replacing the 2020 Blender exports (issue #3). The
+generated models have no third-party rights and use named PBR materials. Once verified
+dimensions are entered, they are rebuilt at those exact dimensions. Until then they use
+nominal category sizes, which are never shown to shoppers.
 
-| Product | GLB | Triangles | Notes |
-| --- | --- | --- | --- |
-| Refrigerator RF22N9781SR | 1.23 MB | 9,756 | Good silhouette, but the material is flat grey and there is no Family Hub screen. A `lightfridge` variant and an older `fridge.glb` are kept in `assets/source/` for review. |
-| Microwave ME18H704SFS | 0.02 MB | 108 | A generic box model. It needs **wall / over-the-range** placement testing. |
-| Range NE58R9431SS | 0.54 MB | 9,768 | A generic range with a white body, which **does not match** the stainless finish. Appearance is not validated against the SKU. |
-| Dishwasher DW80K7050US | 0.01 MB | 36 | A generic box with no visible top controls. |
+| Product | GLB | Triangles | Product-type features modelled | 2020 export it replaces |
+| --- | --- | --- | --- | --- |
+| Refrigerator RF22N9781SR | 0.27 MB | 9,084 | 4-door Flex layout, Family Hub screen, dispenser, bar handles, toe grille | 1.23 MB, 9,756 tris, flat grey, no screen |
+| Microwave ME18H704SFS | 0.23 MB | 8,352 | Window door, bar handle, keypad and display, top vent, cooktop lights | 0.02 MB, 108 tris, generic box |
+| Range NE58R9431SS | 0.19 MB | 6,844 | Slide-in glass cooktop with elements, front knobs and display, window door, drawer | 0.54 MB, 9,768 tris, white body |
+| Dishwasher DW80K7050US | 0.09 MB | 3,804 | Top control strip, pocket handle, status light, toe kick | 0.01 MB, 36 tris, plain box |
 
-All four sources are Blender exports in arbitrary units, so **none can be scale-verified
-until authoritative dimensions are recorded**. Rights and ownership are unknown, and there
-is no license file. The 2020 prototype hotlinked product photos whose filenames
-referenced other SKUs (microwave ME16H702SES, range NE58K9430SS). Those images were
-removed, and the catalog now uses posters rendered from the models.
+These are faithful *category* models, not photogrammetry of the exact SKUs. For example,
+button layouts are representative. Before a current sales catalog launches, compare each
+one against approved product imagery, or replace it with a manufacturer asset. The 2020
+exports stay in `assets/source/models/` for reference. The microwave still needs **wall /
+over-the-range** placement testing on a device.
+
+The 2020 prototype hotlinked product photos whose filenames referenced other SKUs
+(microwave ME16H702SES, range NE58K9430SS). Those images were removed, and the catalog now
+uses posters rendered from the models.
 
 ## Budgets (measured from the build, gzip)
 
@@ -68,6 +76,7 @@ removed, and the catalog now uses posters rendered from the models.
 - [ ] Retailer destinations. Check each URL, then set `retailerStatus` and `retailerCheckedAt`.
 - [ ] Whether prices appear at all.
 - [ ] One verified everyday benefit per product.
+- [ ] Which additional finishes each SKU is offered in (for example black stainless), with sources. These turn on the swatches.
 
 **Developer**
 - [ ] Confirm `<model-viewer>` (4.3.1, pinned) after the Stage 1 AR spike with `?ar-test`.

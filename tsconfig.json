@@ -15,6 +15,6 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "scripts", "tests", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"],
+  "include": ["src", "scripts", "tests", "assets/source/generators", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"],
   "exclude": ["src/sw/sw.js"]
 }

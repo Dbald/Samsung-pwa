@@ -28,6 +28,8 @@ export interface ViewerAdapter {
   /** Best guess of the route activateAR() will take on this device. */
   arMode(): Promise<ArMode>;
   activateAR(): Promise<void>;
+  /** Multiplies the finish materials' base colour; `null` restores the original finish. */
+  setFinish(tint: [number, number, number] | null, materials: string[] | null): void;
   /** Restores the approved framing. */
   reset(): void;
   /** Removes the renderer and releases its resources. */

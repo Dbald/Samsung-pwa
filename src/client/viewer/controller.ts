@@ -51,6 +51,7 @@ export function initViewer(section: HTMLElement, analytics: Analytics, loadAdapt
   let adapter: ViewerAdapter | null = null;
   let requestedAt = 0;
   let attempt = 0;
+  let finish: { tint: [number, number, number] | null; materials: string[] | null } = { tint: null, materials: null };
 
   function render(next: State, message = '') {
     state = next;
@@ -103,6 +104,7 @@ export function initViewer(section: HTMLElement, analytics: Analytics, loadAdapt
         onProgress: setProgress,
         onReady() {
           if (current !== attempt || state !== 'loading') return;
+          adapter?.setFinish(finish.tint, finish.materials);
           render('ready', MESSAGES.ready);
           analytics.track('viewer_ready', { elapsedMs: performance.now() - requestedAt });
           // canActivateAR settles a moment after load.
@@ -191,5 +193,20 @@ export function initViewer(section: HTMLElement, analytics: Analytics, loadAdapt
   }
 
   render('idle');
-  return { load, get state() { return state; } };
+  return {
+    load,
+    get state() {
+      return state;
+    },
+    /** Remembers a finish to apply when the model next becomes ready. */
+    setFinishLater(tint: [number, number, number] | null, materials: string[] | null) {
+      finish = { tint, materials };
+    },
+    /** Applies a finish now, or as soon as the model is ready; loads 3D if needed. */
+    setFinish(tint: [number, number, number] | null, materials: string[] | null) {
+      finish = { tint, materials };
+      if (state === 'ready') adapter?.setFinish(tint, materials);
+      else if (state === 'idle') void load('tap');
+    },
+  };
 }

@@ -8,7 +8,8 @@ import { validateCatalog, type ModelStats, type ValidationResult } from '../cata
 
 export const ROOT = resolve(import.meta.dirname, '../..');
 export const ASSETS_DIR = join(ROOT, 'assets');
-export const CATALOG_DIR = join(ROOT, 'catalog');
+/** CATALOG_DIR lets tests build the site from a fixture catalog. */
+export const CATALOG_DIR = resolve(ROOT, process.env.CATALOG_DIR ?? 'catalog');
 
 function readJson(path: string): unknown {
   try {
